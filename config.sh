@@ -31,7 +31,7 @@ if [[ $KSU_ENABLED == "true" ]] && [[ ! -z "$KERNELSU_DIR" ]]; then
 
     if [[ ! -z "$KERNELSU_GITMODULE" ]]; then
         KSU_GIT_VERSION=$(cd KernelSU && git rev-list --count HEAD)
-        KERNELSU_VERSION=$(($KSU_GIT_VERSION + 10200))
+        KERNELSU_VERSION=$(($KSU_GIT_VERSION + 30000))
     else
         KERNELSU_VERSION=$(grep "KERNEL_SU_VERSION" "$KERNELSU_DIR/ksu.h" | cut -c26-)
     fi    
@@ -78,7 +78,7 @@ elif [[ $KSU_ENABLED == "true" ]]; then
     fi
 
     KSU_GIT_VERSION=$(cd KernelSU && git rev-list --count HEAD)
-    KERNELSU_VERSION=$(($KSU_GIT_VERSION + 10200))
+    KERNELSU_VERSION=$(($KSU_GIT_VERSION + 30000))
     msg "KernelSU Version: $KERNELSU_VERSION"
     sed -i "s/^CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION=\"-$KERNEL_BRANCH-$KERNEL_NAME-xx\"/" $DEVICE_DEFCONFIG_FILE
 fi
