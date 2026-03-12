@@ -14,11 +14,11 @@ on:
       Kernel_Git:
         required: true
         type: string
-        default: https://github.com/selfmusing/kernel_xiaomi_violet.git
+        default: https://github.com/selfmusing/android_kernel_xiaomi_violet.git
       Kernel_Branch:
         required: true
         type: string
-        default: main
+        default: 16
       AnyKernel3_Git:
         required: true
         type: string
