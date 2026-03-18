@@ -133,16 +133,6 @@ msg "Cloning Clang and Kernel in parallel..."
 ) &
 KERNEL_PID=$!
 
-msg "添加 CONFIG_KVM=y"
-DEFCONFIG="$KERNEL_DIR/arch/arm64/configs/vendor/violet-perf_defconfig"
-
-# 添加 CONFIG_KVM=y（不存在则追加，存在则替换）
-if grep -q "^CONFIG_KVM" "$DEFCONFIG"; then
-    sed -i 's/^CONFIG_KVM.*/CONFIG_KVM=y/' "$DEFCONFIG"
-else
-    echo "CONFIG_KVM=y" >> "$DEFCONFIG"
-fi
-
 # Clang
 (
     mkdir -p Clang
@@ -153,6 +143,17 @@ fi
 CLANG_PID=$!
 
 wait $KERNEL_PID $CLANG_PID
+
+msg "添加 CONFIG_KVM=y"
+DEFCONFIG="$KERNEL_DIR/arch/arm64/configs/vendor/violet-perf_defconfig"
+
+# 添加 CONFIG_KVM=y（不存在则追加，存在则替换）
+if grep -q "^CONFIG_KVM" "$DEFCONFIG"; then
+    sed -i 's/^CONFIG_KVM.*/CONFIG_KVM=y/' "$DEFCONFIG"
+else
+    echo "CONFIG_KVM=y" >> "$DEFCONFIG"
+fi
+
 msg "Clone completed"
 
 CLANG_VERSION="$("$CLANG_DIR/clang" --version 2>&1 | sed -nE '1{s/.clang version ([0-9]+(.[0-9]+){1,}).(based on [^)])./\1 (\2)/p}')"
