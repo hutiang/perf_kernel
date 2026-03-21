@@ -143,6 +143,12 @@ KERNEL_PID=$!
 CLANG_PID=$!
 
 wait $KERNEL_PID $CLANG_PID
+
+msg "添加 虚拟化"
+DEFCONFIG="$KERNEL_DIR/arch/arm64/configs/vendor/violet-perf_defconfig"
+
+echo -e "\n# Virtualization KVM for SD675\nCONFIG_VIRTUALIZATION=y\nCONFIG_KVM=y\n" >> "$DEFCONFIG"
+
 msg "Clone completed"
 
 CLANG_VERSION="$("$CLANG_DIR/clang" --version 2>&1 | sed -nE '1{s/.clang version ([0-9]+(.[0-9]+){1,}).(based on [^)])./\1 (\2)/p}')"
