@@ -268,6 +268,13 @@ make O=out $args $DEVICE_DEFCONFIG
 if [[ ! -z "$COMMON_DEFCONFIG" ]]; then
   make O=out $args $COMMON_DEFCONFIG
 fi
+
+cfg="$GITHUB_WORKSPACE/Perf/out/.config"
+sed -i '/^CONFIG_LITTLE_CPU_MASK=/d' "$cfg"
+sed -i '/^CONFIG_BIG_CPU_MASK=/d'    "$cfg"
+echo "CONFIG_LITTLE_CPU_MASK=0x3F" >> "$cfg"
+echo "CONFIG_BIG_CPU_MASK=0xC0"    >> "$cfg"
+
 make O=out $args kernelversion
 make O=out $args -j"$(nproc --all)"
 msg "Kernel version: $KERNEL_VERSION"
